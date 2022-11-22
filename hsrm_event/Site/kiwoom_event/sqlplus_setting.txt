@@ -1,0 +1,24 @@
+1. https://www.oracle.com/database/technologies/instant-client/winx64-64-downloads.html
+
+2. 먼저 Instant Client Package - Basic 을 다운로드한다.
+
+3. Instanct Client Package - SQL*Plus 를 다운로드한다.
+
+# 참조 : http://egloos.zum.com/xxwony/v/74280
+4. 다운로드한 2개의 zip 파일을 하나의 디렉토리에 압축 해제한다. 예를 들어, D:\oracle_instantclient_11_2에 압축해제 한다.
+6. 몇가지 환경변수를 추가한다.
+ORACLE_HOME=d:\oracle_instantclient_11_2
+TNS_ADMIN=d:\oracle_instantclient_11_2\network\admin  --> tnsnames.ora 파일 위치.
+PATH=d:\oracle_instantclient_11_2
+NLS_LANG=AMERICAN_AMERICA.KO16KSC5601
+
+7.d:\oracle_instantclient_11_2\network\admin
+
+tnsnames.ora는 ORACLE_HOME에 두어도 상관없지만 통상 oracle 설치될 때 ORACLE_HOME\network\admin에 존재하므로 비슷하게 들었다.
+8.TNS_ADMIN 디렉토리에 tnsnames.ora 파일을 생성하고
+(DESCRIPTION =         
+	(ADDRESS = (PROTOCOL = TCP) (HOST = 121.170.193.203) (PORT = 1521))         
+	(CONNECT_DATA = (SID = ORCL))     
+)
+
+
