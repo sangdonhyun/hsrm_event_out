@@ -51,3 +51,40 @@ ON el.serial_number = al.ss
 
 
 nas,storage,switch 의 alias 컬럼 추가.
+
+
+20231010
+
+이벤트 연동 방식 추가.
+snmp 전송
+./config.cfg
+[common]
+send_method = file/snmp/syslog
+
+./config/snmp.cfg 
+
+[snmp]
+d =  218.145.246.35
+c = public
+o = 1.3.6.1.4.1.116
+i = 218.145.246.35
+g = 5
+s = 23
+t = 12445
+v1 = 1.3.6.1.4.1.116.5.11.4.2.1 STRING {SERIAL}
+v4 = 1.3.6.1.4.1.116.5.11.4.2.5 STRING {DATE}
+v5 = 1.3.6.1.4.1.116.5.11.4.2.6 STRING {TIME}
+v6=  1.3.6.1.4.1.116.5.11.4.2.7 STRING {MSG}
+
+해당 site 에 맞게 수정.
+
+syslog 전송.
+q_event_level = 'Critical'
+   ==> rsyslog error 로 전송
+
+q_event_level = 'Warning'
+   ==> rsyslog warning 으로로 전송
+이 외에는 모두 info 전송
+
+
+
