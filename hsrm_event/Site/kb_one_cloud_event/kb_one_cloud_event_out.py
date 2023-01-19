@@ -7,18 +7,22 @@ import configparser
 import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
+import re
+import fleta_crypto
+import kb_one_cloud
 
-
-class itsm_event():
+class kb_onecloud_event():
     def __init__(self):
         self.now = datetime.datetime.now()
         self.flogger = self.get_logger
         self.cfg = self.get_cfg()
-        self.conn_string = self.get_conn_str()
-        print(self.conn_string)
         self.c_file = os.path.join('config','c_date.txt')
-        self.seq_file = os.path.join('config','seq_no.txt')
+        self.fc = fleta_crypto.AESCipher('kes2719!')
+        self.conn_string = self.get_conn_str()
+        self.kb_one = kb_one_cloud.event()
         self.last_seq_no = self.get_last_seq_no()
+        self.seq_file = os.path.join('config','seq_no.txt')
+
 
     def get_last_seq_no(self):
         try:
@@ -50,7 +54,8 @@ class itsm_event():
             last_seq_no = f.read()
         if not self.last_seq_no == last_seq_no:
             with open(self.seq_file,'w') as fw:
-                fw.write(str(self.last_seq_no))
+                fw.write(self.last_seq_no)
+
 
     @property
     def get_logger(self):
@@ -73,18 +78,40 @@ class itsm_event():
 
 
     def get_conn_str(self):
-        ip = self.cfg.get('database','ip')
-        user = self.cfg.get('database','user')
-        dbname = self.cfg.get('database','dbname')
-        password = self.cfg.get('database','password')
-        port = self.cfg.get('database','port',fallback=5432)
-        return "host='{}' dbname='{}' user='{}' password='{}' port ='{}'".format(ip,dbname,user,password,port)
+        ip = self.cfg.get('database', 'ip', fallback='localhost')
+        user = self.cfg.get('database', 'user', fallback='webuser')
+        dbname = self.cfg.get('database', 'dbname', fallback='qweb')
+        passwd = self.cfg.get('database', 'password', fallback='qw19850802@')
+        port = self.cfg.get('database', 'port', fallback='5432')
+        if len(passwd) > 20:
+            passwd = self.fc.decrypt(passwd)
+            if isinstance(passwd, bytes):
+                passwd = passwd.decode('utf-8')
+        return "host='%s' dbname='%s' user='%s' password='%s' port='%s'" % (ip, dbname, user, passwd, port)
 
     def get_cfg(self):
         cfg = configparser.RawConfigParser()
         cfg_file = os.path.join('config','config.cfg')
         cfg.read(cfg_file)
         return cfg
+
+    def get_url(self):
+        ip = self.cfg.get('kb_one_cloud', 'ip')
+        port = self.cfg.get('kb_one_cloud', 'port')
+        url = self.cfg.get('kb_one_cloud', 'url')
+        token = self.cfg.get('kb_one_cloud', 'token')
+        if url[:1] == '/':
+            url = url[1:]
+        http_str =  'http://{}:{}/{}'.format(ip,port,url)
+        return http_str
+
+    def get_curl_cmd(self):
+        token  = self.cfg.get('kb_one_cloud','token')
+        http_str = self.get_url()
+        cmd = """curl -v -H "Accept: application/json" -H "Authorization:   Basic {TOKEN} " -H "Content-Type: application/json" -X POST -d@send.json "{URL}" """.format(TOKEN=token,URL=http_str)
+        # cmd = """curl -v -H "Accept: application/json" -user "mid.event.integration:Kbsnevt0905@!" -H "Content-Type: application/json" -X POST -d@send.json "{URL}" """.format(TOKEN=token,URL=http_str)
+        return cmd
+
 
     def getRaw(self, query_string):
         # print(query_string)
@@ -103,8 +130,17 @@ class itsm_event():
             self.flogger.error(str(e))
             return []
 
+    def send_file(self,msg):
+        event_file = self.cfg.get('common','event_file')
+        try:
+            with open(event_file,'a') as fw:
+                fw.write(msg)
+                fw.write('\n')
+        except Exception as e:
+            self.flogger.error(str(e))
+            print(str(e))
 
-    def send(self,msg):
+    def send_socket(self,msg):
         """
         [itsm]
         itsm_ip = 121.170.193.222
@@ -114,7 +150,7 @@ class itsm_event():
         host = self.cfg.get('itsm', 'itsm_ip', fallback='127.0.0.1')
         port = self.cfg.get('itsm', 'itsm_port', fallback=3264)
         port = int(port)
-        print(host,port)
+
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         try:
@@ -152,20 +188,75 @@ class itsm_event():
         2022-03-15 10:35:55	01077778888	00000000000000011536	11536	STG	HITACHI	is a Error test code.[PORT:5E]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         2022-03-15 10:35:55	01077778888	00000000000000011537	11537	STG	HITACHI	is a Error test code.[PORT:5E]
         """
-
-        for evt in q_list:
+        """
+        event_date,
+        serial_number,
+        event_code,
+        event_level,
+        q_event_level ,
+        desc_summary
+        """
+        #for evt in q_list:
+        evt_arg_list, evt_list = list(),list()
+        # for evt in q_list:
+        for evt in q_list[-3:]:
+            evt_arg_info = dict()
             evt_info = dict()
+            for i in range(len(evt)):
+                arg_num = i+1
+                arg_msg = evt[i]
+                if arg_msg == None:
+                    arg_msg="None"
+                evt_arg_info['arg_{}'.format(str(arg_num))] = arg_msg.strip()
+
+            # evt_info = dict()
+            # date_str = datetime.datetime.strftime(datetime.datetime.strptime(evt[0],'%Y-%m-%d %H:%M:%S'),'%Y%m%d%H%M%S')
+            # evt_info['event_date']    = date_str
+            # evt_info['serial_number'] = evt[1]
+            # evt_info['event_code']    = evt[2]
+            # evt_info['event_level']   = evt[3]
+            # evt_info['q_event_level'] = evt[4]
+            # evt_info['desc_summary']  = evt[5]
+            """
+            event_date, 0
+            serial_number,1
+            event_code,2
+            event_level,3
+            q_event_level ,4
+            device_type ,5
+            al.device_alias,6
+            desc_summary7
+            """
+            print(evt)
             date_str = datetime.datetime.strftime(datetime.datetime.strptime(evt[0],'%Y-%m-%d %H:%M:%S'),'%Y%m%d%H%M%S')
-            evt_info['event_date'] = date_str
-            evt_info['tel_num'] = evt[1]
-            evt_info['dev_serail'] = evt[2]
-            evt_info['dev_alias'] = evt[3]
-            evt_info['dev_type'] = evt[4]
-            evt_info['dev_vedor'] = evt[5]
-            evt_info['evt_desc'] = evt[6]
+            evt_info['description'] = ''
+            evt_info['source'] = 'HSRM'
+            evt_info['type'] = evt[5]
+            evt_info['message_key'] = evt[5].strip() + date_str
+            evt_info['time_of_event'] = evt[0]
+
+            if evt[4].strip() == 'Critical':
+                evt_info['severity'] = '5'
+            elif evt[4].strip() == 'Warnning':
+                evt_info['severity'] = '4'
+            else:
+                evt_info['severity'] = '0'
+
+
+            evt_info['node'] = evt[1]
+            evt_info['resource'] = evt[6]
+            # evt_info['state'] = 'New'
+            evt_info['resolution_state'] = ''
+            print(evt[4].strip())
+            print(evt_info['resource'])
+
+            date_str = datetime.datetime.strftime(datetime.datetime.strptime(evt[0], '%Y-%m-%d %H:%M:%S'),
+                                                  '%Y%m%d%H%M%S')
+
             evt_list.append(evt_info)
-            self.last_seq_no = evt[-1]
-        return evt_list
+            evt_arg_list.append(evt_arg_info)
+            self.self.last_seq_no = evt[-1]
+        return evt_arg_list, evt_list
 
     def get_req(self):
         req_info = dict()
@@ -200,82 +291,77 @@ class itsm_event():
             log_str = f.read()
         return log_str
 
+    def get_arg_set(self,msg_format):
+        fd=re.findall('\{\d\}',msg_format)
+        return fd
+
+
+
     def main(self):
         yd_date = self.now - datetime.timedelta(days=1)
         yd = yd_date.strftime('%Y-%m-%d')
         td = self.now.strftime('%Y-%m-%d')
         qcd,cd = self.get_cdate()
-        evt_list = self.get_evt_list(yd, td, qcd)
+        evt_arg_list, evt_list = self.get_evt_list(yd, td, qcd)
 
         print('event count :',len(evt_list))
-        """
-        KB ITSM
-        INFO  : 구분자
-        2  : {1 :수신직원번소 , 2:수신전화번호, 3:수신App코드그룹, 6:ITSM정의수신코드} => 2번고정
-        01012341234  : 수신대상자 (전화번호) event message 대상자.
-        20220329120000 : 이벤트 발생시간.
-        5011815 : 요청자 (KB 담당 직원번호)
-        P : 발송타입 , 고정값
-        HSRM : app code 값
-        HSRM : 프로그램명
-        NA : 요청구분키 / ID / 근거 => 없으면 NA
-        [Serailnum] message 80byte 이하 SMS , 초과  LMS
-        """
-
-        """
-        [messgae]
-        req_emp = 5011815
-        req_src1 = HSRM
-        req_src2 = HSRM
-        req_dev = NA
-
-        """
-        req_info = self.get_req()
-        self.flogger.debug('yd : {}, td: {}, cd: {}, qcd: {}, count:{}'.format(yd, td, cd, qcd, str(len(evt_list))))
         log_str = self.get_log_str()
-        for evt in evt_list:
-            """
-            evt 
-                1. 이벤트 발생시간
-                2. SAN/STG
-                3. 장비 serial
-                4. 이벤트 내용\
-            evt['event_date'] = evt[0]
-            evt['tel_num'] = evt[1]
-            evt['dev_serail'] = evt[2]
-            evt['dev_alias'] = evt[3]
-            evt['dev_vedor'] = evt[4]
-            evt['evt_desc'] = evt[5]
-            """
-            evt_date = evt['event_date']
-            evt_dev = evt['dev_type']
-            evt_telnum = evt['tel_num']
-            evt_serail = evt['dev_alias']
-            evt_msg = evt['evt_desc']
-            kb_emp = req_info['req_emp']
-            app_code = req_info['req_src1']
-            pgm_name = req_info['req_src2']
-            dev_key  = req_info['req_dev']
-            desc ="[{}][{}]{}".format(evt_dev,evt_serail,evt_msg)
-            msg="INFO 2 {RCV_NO} {EVT_TIME} {REQ_EMP} P {REQ_SRC1} {REQ_SRC2} {REQ_DEV} {MSG_TXT}".format(
-                                                                                    RCV_NO=evt_telnum,
-                                                                                    EVT_TIME=evt_date,
-                                                                                    REQ_EMP=kb_emp,
-                                                                                    REQ_SRC1=app_code,
-                                                                                    REQ_SRC2=pgm_name,
-                                                                                    REQ_DEV=dev_key,
-                                                                                    MSG_TXT=desc)
-            if msg in log_str:
-                self.flogger.error('dup mag : {}'.format(msg))
-            else:
-                self.flogger.info(msg)
-                self.send(msg)
-                self.set_last_seq_no()
+        swi_msg_bit = False
+        swi_msg = str()
+        # evt_list = list()
+        for i in range(len(evt_arg_list)):
+            evt_arg_info = evt_arg_list[i]
+            evt_info = evt_list[i]
+            print('evt_arg_info :', evt_arg_info)
+
+            event_format = self.cfg.get('common', 'msg_format', fallback='[{1}][{2}][{3}][{5}][{6}]')
+            msg = event_format
+            fd = re.findall('\{\d\}', msg)
+            for arg in fd:
+                arg_num = re.search('\d',arg).group()
+                evt_arg = 'arg_{}'.format(arg_num)
+                tg_msg = evt_arg_info[evt_arg]
+                msg = msg.replace(arg,tg_msg)
+                if len(re.findall('\[',tg_msg)) > 2:
+                    swi_msg_bit = True
+                    swi_msg = tg_msg
+            if swi_msg_bit :
+                msg = swi_msg
+            evt_info['description'] = msg.strip()
+            evt_list.append(evt_info)
+            # if msg in log_str:
+            #     self.flogger.error('dup mag : {}'.format(msg))
+            # else:
+            #     self.flogger.info(msg)
+            #     self.send_file(msg)
         # self.set_cdate()
+
+        event_data_list = self.kb_one.get_event_list_data(evt_list)
+        print('-'*40)
+        print('-'*40)
+        print(event_data_list)
+        print('-' * 40)
+        print('-' * 40)
+        with open('send.json','w') as fw:
+            fw.write(json.dumps(event_data_list,indent=4))
+        if len(evt_list) > 0:
+            cmd  = self.get_curl_cmd()
+            print(cmd)
+            ret=os.popen(cmd).read()
+            print(ret)
+            self.flogger.info(ret)
+            self.set_last_seq_no()
+
+        else:
+            self.flogger.info('count : 0')
         print('-'*50)
 
 if __name__=='__main__':
-    itsm_event().main()
+    ev = kb_onecloud_event()
+    print(ev.get_url())
+    print(ev.get_curl_cmd())
+    ev.main()
+
     # city = u'서울'
     # print(isinstance(city,str))
     # city1=city.encode('utf-8')

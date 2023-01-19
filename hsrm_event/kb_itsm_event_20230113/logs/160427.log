@@ -1,0 +1,124 @@
+오류:  "master.master_stg_add_info" 이름의 릴레이션(relation)이 없습니다
+LINE 46:                       master.master_stg_add_info msai
+                               ^
+
+INFO 2 01038426135 20220427105441 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427105441 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427110825 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427110825 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427113951 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427113951 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427125954 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427125954 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427130056 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427130056 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427133630 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427133630 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427140602 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427140602 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427143229 5011815 P HSRM HSRM NA [VENDOR_LEVEL][Y.E.SW.온라인 DR - D01.L00N][SWI.MON.SFP.RX.I36]Critical                                          
+INFO 2 01090982151 20220427143229 5011815 P HSRM HSRM NA [VENDOR_LEVEL][Y.E.SW.온라인 DR - D01.L00N][SWI.MON.SFP.RX.I36]Critical                                          
+INFO 2 01038426135 20220427143602 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427143602 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427152053 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427152053 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427152616 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427152616 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427155312 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427155312 5011815 P HSRM HSRM NA [VENDOR_LEVEL][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427105441 5011815 P HSRM HSRM NA [warning                                           ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427105441 5011815 P HSRM HSRM NA [warning                                           ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427110825 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427110825 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427113951 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427113951 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427125954 5011815 P HSRM HSRM NA [warning                                           ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427125954 5011815 P HSRM HSRM NA [warning                                           ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427130056 5011815 P HSRM HSRM NA [warning                                           ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427130056 5011815 P HSRM HSRM NA [warning                                           ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427133630 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427133630 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427140602 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427140602 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427143229 5011815 P HSRM HSRM NA [Critical                                          ][Y.E.SW.온라인 DR - D01.L00N][SWI.MON.SFP.RX.I36]Critical                                          
+INFO 2 01090982151 20220427143229 5011815 P HSRM HSRM NA [Critical                                          ][Y.E.SW.온라인 DR - D01.L00N][SWI.MON.SFP.RX.I36]Critical                                          
+INFO 2 01038426135 20220427143602 5011815 P HSRM HSRM NA [warning                                           ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427143602 5011815 P HSRM HSRM NA [warning                                           ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427152053 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427152053 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427152616 5011815 P HSRM HSRM NA [warning                                           ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427152616 5011815 P HSRM HSRM NA [warning                                           ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427155312 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427155312 5011815 P HSRM HSRM NA [alert                                             ][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427105441 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427105441 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427110825 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427110825 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427113951 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427113951 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427125954 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427125954 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427130056 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427130056 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427133630 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427133630 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427140602 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427140602 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427143229 5011815 P HSRM HSRM NA [Critical][Y.E.SW.온라인 DR - D01.L00N][SWI.MON.SFP.RX.I36]Critical                                          
+INFO 2 01090982151 20220427143229 5011815 P HSRM HSRM NA [Critical][Y.E.SW.온라인 DR - D01.L00N][SWI.MON.SFP.RX.I36]Critical                                          
+INFO 2 01038426135 20220427143602 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427143602 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427152053 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427152053 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427152616 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427152616 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427155312 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427155312 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427105441 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427105441 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427110825 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427110825 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427113951 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427113951 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427125954 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427125954 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427130056 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427130056 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427133630 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427133630 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427140602 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427140602 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427143229 5011815 P HSRM HSRM NA [Critical][Y.E.SW.온라인 DR - D01.L00N][SWI.MON.SFP.RX.I36]Critical                                          
+INFO 2 01090982151 20220427143229 5011815 P HSRM HSRM NA [Critical][Y.E.SW.온라인 DR - D01.L00N][SWI.MON.SFP.RX.I36]Critical                                          
+INFO 2 01038426135 20220427143602 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427143602 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427152053 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427152053 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01090982151 20220427152616 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01038426135 20220427152616 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Warning                                           
+INFO 2 01090982151 20220427155312 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427155312 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Critical                                          
+INFO 2 01038426135 20220427105441 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is nearly full (using or reserving 97% of space and 0% of inodes).
+INFO 2 01090982151 20220427105441 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is nearly full (using or reserving 97% of space and 0% of inodes).
+INFO 2 01090982151 20220427110825 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol03@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).
+INFO 2 01038426135 20220427110825 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol03@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).
+INFO 2 01090982151 20220427113951 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).
+INFO 2 01038426135 20220427113951 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).
+INFO 2 01038426135 20220427125954 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is nearly full (using or reserving 97% of space and 0% of inodes).
+INFO 2 01090982151 20220427125954 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is nearly full (using or reserving 97% of space and 0% of inodes).
+INFO 2 01038426135 20220427130056 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Volume DB_NewVol03@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is nearly full (using or reserving 97% of space and 0% of inodes).
+INFO 2 01090982151 20220427130056 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Volume DB_NewVol03@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is nearly full (using or reserving 97% of space and 0% of inodes).
+INFO 2 01038426135 20220427133630 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).
+INFO 2 01090982151 20220427133630 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).
+INFO 2 01038426135 20220427140602 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol03@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).
+INFO 2 01090982151 20220427140602 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol03@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).
+INFO 2 01038426135 20220427143229 5011815 P HSRM HSRM NA [Critical][Y.E.SW.온라인 DR - D01.L00N][SWI.MON.SFP.RX.I36][2022-04-27 14:32:29][Critical][SFP RX][Y.E.SW.온라인 DR - D01.L00N (BRCCHQ1939L00N)][Index:36,Slot:VIR,Port:36] SFP Rx Power 123.0uW [Port Speed:8, Threshold:150uW], Linked Devices : [SVR] dr_DRvio06,dr_kbctms01,dr_kcfkap01,dr_kswiap01,dr_kxpbap01,dr_szaapo01,dr_szadbo01  [STG] 297000425(Y.E.ST.은행 CS 업무용 DR #2.0425),297000427(Y.E.ST.은행 CS 업무용 DR #1.0427)
+INFO 2 01090982151 20220427143229 5011815 P HSRM HSRM NA [Critical][Y.E.SW.온라인 DR - D01.L00N][SWI.MON.SFP.RX.I36][2022-04-27 14:32:29][Critical][SFP RX][Y.E.SW.온라인 DR - D01.L00N (BRCCHQ1939L00N)][Index:36,Slot:VIR,Port:36] SFP Rx Power 123.0uW [Port Speed:8, Threshold:150uW], Linked Devices : [SVR] dr_DRvio06,dr_kbctms01,dr_kcfkap01,dr_kswiap01,dr_kxpbap01,dr_szaapo01,dr_szadbo01  [STG] 297000425(Y.E.ST.은행 CS 업무용 DR #2.0425),297000427(Y.E.ST.은행 CS 업무용 DR #1.0427)
+INFO 2 01038426135 20220427143602 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is nearly full (using or reserving 97% of space and 0% of inodes).
+INFO 2 01090982151 20220427143602 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is nearly full (using or reserving 97% of space and 0% of inodes).
+INFO 2 01090982151 20220427152053 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).
+INFO 2 01038426135 20220427152053 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol01@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).
+INFO 2 01090982151 20220427152616 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Volume DB_NewVol03@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is nearly full (using or reserving 97% of space and 0% of inodes).
+INFO 2 01038426135 20220427152616 5011815 P HSRM HSRM NA [warning][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.85]Volume DB_NewVol03@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is nearly full (using or reserving 97% of space and 0% of inodes).
+INFO 2 01090982151 20220427155312 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol02@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).
+INFO 2 01038426135 20220427155312 5011815 P HSRM HSRM NA [alert][K.N.ST.보존기간경과문서파기.5950][NETAPP.ST.82]Volume DB_NewVol02@vserver:900d54d8-d7e0-11ea-b9fc-00a098f42cae is full (using or reserving 98% of space and 0% of inodes).

@@ -144,8 +144,11 @@ class itsm_event():
         q = q.replace('{YD}',yd)
         q = q.replace('{TD}',td)
         q = q.replace('{CD}',cd)
-        q = q.replace('{LAST_SEQ_NO}',self.last_seq_no)
+        if '{SEQ_NO}' in q:
+            q = q.replace('{SEQ_NO}', self.last_seq_no)
+
         print(q)
+        #self.flogger.info(q)
         q_list = self.getRaw(q)
         """
         2022-03-04 09:20:55	01077778888	00000000000000011015	411015	STG	HITACHI	is a Error test code.[PORT:5E]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
@@ -270,7 +273,7 @@ class itsm_event():
             else:
                 self.flogger.info(msg)
                 self.send(msg)
-                self.set_last_seq_no()
+            self.set_last_seq_no()
         # self.set_cdate()
         print('-'*50)
 

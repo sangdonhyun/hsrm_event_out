@@ -1,3 +1,10 @@
+'''
+Created on 2012. 10. 12.
+Modify on 2023-01-06
+@author: muse
+현재 시간 기준 마지막 쿼리 시간 부터 => lost seq_no 이후 로 쿼리 수정.
+'''
+
 import psycopg2
 import datetime
 import socket
@@ -13,12 +20,26 @@ import fleta_crypto
 class itsm_event():
     def __init__(self):
         self.now = datetime.datetime.now()
+        self.seq_file = os.path.join('config','seq_no.txt')
+        self.seq_no = self.get_seq_no()
         self.flogger = self.get_logger
         self.cfg = self.get_cfg()
         self.c_file = os.path.join('config','c_date.txt')
         self.fc = fleta_crypto.AESCipher('kes2719!')
         self.conn_string = self.get_conn_str()
+        print(self.conn_string)
 
+    def get_seq_no(self):
+
+        if not os.path.isfile(self.seq_file):
+            self.set_seq_no('1')
+        with open(self.seq_file) as f:
+            seq_no = f.read()
+        return seq_no
+
+    def set_seq_no(self,seq_no):
+        with open(self.seq_file,'w') as fw:
+            fw.write(str(seq_no))
 
 
     @property
@@ -31,7 +52,7 @@ class itsm_event():
         stream_hander = logging.StreamHandler()
         stream_hander.setFormatter(formatter)
         logger.addHandler(stream_hander)
-        log_file = os.path.join('logs',self.now.strftime('%Y%m%d.log'))
+        log_file = os.path.join('logs', self.now.strftime('%Y%m%d.log'))
         file_handler = logging.FileHandler(log_file)
         formatter = logging.Formatter(u'%(asctime)s %(levelname)s ==> %(message)s')
         file_handler.setFormatter(formatter)
@@ -128,6 +149,9 @@ class itsm_event():
         q = q.replace('{YD}',yd)
         q = q.replace('{TD}',td)
         q = q.replace('{CD}',cd)
+        if '{SEQ_NO}' in q:
+            q = q.replace('{SEQ_NO}',self.seq_no)
+        print(q)
         q_list = self.getRaw(q)
         """
         2022-03-04 09:20:55	01077778888	00000000000000011015	411015	STG	HITACHI	is a Error test code.[PORT:5E]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
@@ -142,7 +166,7 @@ class itsm_event():
         q_event_level ,
         desc_summary
         """
-
+        seq_no = '1'
         for evt in q_list:
             evt_info = dict()
             for i in range(len(evt)):
@@ -150,8 +174,8 @@ class itsm_event():
                 arg_msg = evt[i]
                 if arg_msg == None:
                     arg_msg="None"
-                evt_info['arg_{}'.format(str(arg_num))] = arg_msg.strip()
-
+                evt_info['arg_{}'.format(str(arg_num))] = str(arg_msg).strip()
+                seq_no = evt[-1]
             # evt_info = dict()
             # date_str = datetime.datetime.strftime(datetime.datetime.strptime(evt[0],'%Y-%m-%d %H:%M:%S'),'%Y%m%d%H%M%S')
             # evt_info['event_date']    = date_str
@@ -161,6 +185,8 @@ class itsm_event():
             # evt_info['q_event_level'] = evt[4]
             # evt_info['desc_summary']  = evt[5]
             evt_list.append(evt_info)
+        if len(q_list) > 0:
+            self.set_seq_no(seq_no)
         return evt_list
 
     def get_req(self):
@@ -191,7 +217,7 @@ class itsm_event():
         print('check date  : ',self.now.strftime('%Y-%m-%d %H:%M:%S'))
 
     def get_log_str(self):
-        log_file = os.path.join('logs',self.now.strftime('%Y%m%d.log'))
+        log_file = os.path.join('logs', self.now.strftime('%Y%m%d.log'))
         with open(log_file) as f:
             log_str = f.read()
         return log_str
@@ -261,7 +287,7 @@ class itsm_event():
             for arg in fd:
                 arg_num = re.search('\d',arg).group()
                 evt_arg = 'arg_{}'.format(arg_num)
-                tg_msg = evt_info[evt_arg]
+                tg_msg = str(evt_info[evt_arg]).strip()
                 msg = msg.replace(arg,tg_msg)
                 if len(re.findall('\[',tg_msg)) > 2:
                     swi_msg_bit = True

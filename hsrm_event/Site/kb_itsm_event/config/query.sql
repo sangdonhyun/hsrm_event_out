@@ -12,6 +12,7 @@ q_event_level ,
 device_type ,
 al.device_alias,
 desc_summary
+seq_no
 FROM EVENT.event_log el LEFT JOIN
  (
     SELECT stg_serial ss, stg_alias device_alias FROM master.master_stg_info msi
@@ -22,8 +23,19 @@ FROM EVENT.event_log el LEFT JOIN
 ) al
 ON el.serial_number = al.ss
 WHERE
-    1=1
-    --AND el.log_date >= '{YD}'::date,
-    --AND el.log_date <= '{TD}'::date,
-    AND el.check_date >='{CD}'
-    and el.q_event_level = 'Critical'
+    1 = 1
+    and (((q_event_level = 'Warning' and device_type = 'STG') or (q_event_level = 'Critical'  and device_type = 'STG'))
+    or (q_event_level = 'Critical'  and device_type = 'SWI')
+    --or (q_event_level = 'Critical' and device_type = 'NAS')
+   )
+    and seq_no > '{LAST_SEQ_NO}'
+--    and serial_number in (
+--        select
+--            stg_serial ss FROM  master.master_stg_info msi   WHERE    stg_biz_name::text like '%ONE_CLOUD%'
+--        union all
+--        select  lsspi.swi_serial FROM live.live_swi_std_port_info lsspi WHERE   lsspi.dev_type::text = 'STG'::TEXT   and (lsspi.dev_name::bpchar in (
+--            SELECT stg_serial ss FROM master.master_stg_info msi WHERE stg_biz_name::text like '%ONE_CLOUD%'))
+--            group BY lsspi.swi_serial
+--   )
+order BY seq_no ASC limit 30
+

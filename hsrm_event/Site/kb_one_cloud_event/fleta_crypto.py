@@ -26,18 +26,15 @@ class AESCipher(object):
 
 
 if __name__ == '__main__':
-    fc = AESCipher()
+    fc = AESCipher('kes2719!')
     # print(crypt_me)
     pw=input('enter passwd :')
     e=fc.encrypt(pw)
     # e="MfmNWa/dtZt6SN+m0rbfpg=="
 
     t = fc.decrypt(e)
-    print('t :',t)
-    print('e :',e)
+    print(t)
+    print(e)
     if isinstance(e,bytes):
         ps_str = e.decode('utf-8')
         print('패스위드 암호화 : {}'.format(ps_str))
-
-    # pw="KTogOT8Yy/LWtMJ7YtmQug=="
-    # print(fc.decrypt(pw))

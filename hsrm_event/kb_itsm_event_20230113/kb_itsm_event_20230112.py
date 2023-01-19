@@ -1,3 +1,4 @@
+
 import psycopg2
 import datetime
 import socket
@@ -6,57 +7,36 @@ import sys
 import configparser
 import os
 import logging
-from logging.handlers import TimedRotatingFileHandler
+import re
 
 
 class itsm_event():
     def __init__(self):
         self.now = datetime.datetime.now()
-        self.flogger = self.get_logger
+        self.flogger = self.get_logger()
         self.cfg = self.get_cfg()
         self.conn_string = self.get_conn_str()
-        print(self.conn_string)
+        # print(self.conn_string)
         self.c_file = os.path.join('config','c_date.txt')
-        self.seq_file = os.path.join('config','seq_no.txt')
-        self.last_seq_no = self.get_last_seq_no()
+        self.last_seq_no = self.get_seq_no()
 
-    def get_last_seq_no(self):
-        try:
-            with open(os.path.join('config', 'seq_no.txt')) as f:
-                last_seq_no = f.read().strip()
-        except Exception as e:
-            print(str(e))
-            last_seq_no = self.get_last_seq_no_in_db()
-        return last_seq_no
+    def set_seq_no(self,seq_no):
+        self.flogger.info('set last seq_no :{}'.format(seq_no))
+        seq_file = os.path.join('config', 'seq_no.txt')
+        with open(seq_file) as fw:
+            fw.write(str(seq_no))
 
-    def get_last_seq_no_in_db(self):
-        query = """SELECT max(seq_no) FROM EVENT.event_log WHERE
-    1=1
-        AND  ((q_event_level = 'Warning' and device_type = 'STG') or (q_event_level = 'Critical' and device_type = 'STG')
-        or (q_event_level = 'Critical' and device_type = 'SWI') 
-    )
-        """
-        try:
-            seq_no = self.getRaw(query)[0][0]
-        except Exception as e:
-            print(str(e))
-            seq_no = "1"
-        with open(self.seq_file) as fw:
-            fw.write(seq_no)
+    def get_seq_no(self):
+        seq_file = os.path.join('config','seq_no.txt')
+        with open(seq_file) as f:
+            seq_no = f.read()
         return seq_no
 
-    def set_last_seq_no(self):
-        with open(self.seq_file) as f:
-            last_seq_no = f.read()
-        if not self.last_seq_no == last_seq_no:
-            with open(self.seq_file,'w') as fw:
-                fw.write(str(self.last_seq_no))
-
-    @property
     def get_logger(self):
         if not os.path.isdir('logs'):
             os.makedirs('logs')
-        formatter = logging.Formatter(u'%(asctime)s %(levelname)s ==> %(message)s')
+        formatter = logging.Formatter('%(asctime)s %(lineno)d %(levelname)s ==>%(message)s')
+        #logging.basicConfig(format='%(asctime)s %(lineno)d %(levelname)s:%(message)s', level=logging.DEBUG)
         logger = logging.getLogger(__name__)
         logger.setLevel(logging.DEBUG)
         stream_hander = logging.StreamHandler()
@@ -64,20 +44,18 @@ class itsm_event():
         logger.addHandler(stream_hander)
         log_file = os.path.join('logs',self.now.strftime('%Y%m%d.log'))
         file_handler = logging.FileHandler(log_file)
-        formatter = logging.Formatter(u'%(asctime)s %(levelname)s ==> %(message)s')
+        formatter = logging.Formatter('%(asctime)s %(lineno)d %(levelname)s ==>%(message)s')
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
+        
         return logger
-
-
-
 
     def get_conn_str(self):
         ip = self.cfg.get('database','ip')
         user = self.cfg.get('database','user')
         dbname = self.cfg.get('database','dbname')
         password = self.cfg.get('database','password')
-        port = self.cfg.get('database','port',fallback=5432)
+        port = self.cfg.get('database','port')
         return "host='{}' dbname='{}' user='{}' password='{}' port ='{}'".format(ip,dbname,user,password,port)
 
     def get_cfg(self):
@@ -87,7 +65,6 @@ class itsm_event():
         return cfg
 
     def getRaw(self, query_string):
-        # print(query_string)
         db = psycopg2.connect(self.conn_string)
 
         try:
@@ -120,15 +97,16 @@ class itsm_event():
         try:
             # Connect to server and send data
             sock.connect((host, port))
-            if isinstance(msg,str):
-                msg=msg.encode()
+            #if isinstance(msg,str):
+            msg=msg.encode('euc-kr')
+            #print(msg)
             sock.sendall(msg)
         except socket.error as e:
             self.flogger.error(str(e))
         finally:
             sock.close()
 
-    def get_evt_list(self,yd,td,cd):
+    def get_evt_list(self,yd,td,qcd,cd):
         """
         evt = {'datetime':'20220399120000', 'dev': 'STG', 'serial': '20924', 'message': 'Test event from HSRM', "tel_num": '01042420660'}
         evt_list.append(evt)
@@ -143,17 +121,41 @@ class itsm_event():
             q=f.read()
         q = q.replace('{YD}',yd)
         q = q.replace('{TD}',td)
-        q = q.replace('{CD}',cd)
-        q = q.replace('{LAST_SEQ_NO}',self.last_seq_no)
+        q = q.replace('{CD}',qcd)
+        if '{SEQ_NO}' in q:
+            q = q.replace('{SEQ_NO}', self.last_seq_no)
         print(q)
         q_list = self.getRaw(q)
+        
         """
         2022-03-04 09:20:55	01077778888	00000000000000011015	411015	STG	HITACHI	is a Error test code.[PORT:5E]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         2022-03-15 10:35:55	01077778888	00000000000000011536	11536	STG	HITACHI	is a Error test code.[PORT:5E]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         2022-03-15 10:35:55	01077778888	00000000000000011537	11537	STG	HITACHI	is a Error test code.[PORT:5E]
         """
-
+        """
+event_date ,
+       telephone,
+       serial_number dev_serial,
+       view.device_alias_zero(serial_number) dev_alias,
+       device_type ,
+       vendor_name ,
+       desc_summary
+       """
+        """
+event_date ,
+       telephone,
+       event.device_uid_zero(serial_number) dev_serial,
+       event.device_alias_zero(serial_number) dev_alias,
+       device_type ,
+       vendor_name ,
+       event_code,
+       event_level,     
+       q_event_level,   
+       desc_summary
+"""
+       
         for evt in q_list:
+            print(evt)
             evt_info = dict()
             date_str = datetime.datetime.strftime(datetime.datetime.strptime(evt[0],'%Y-%m-%d %H:%M:%S'),'%Y%m%d%H%M%S')
             evt_info['event_date'] = date_str
@@ -162,9 +164,14 @@ class itsm_event():
             evt_info['dev_alias'] = evt[3]
             evt_info['dev_type'] = evt[4]
             evt_info['dev_vedor'] = evt[5]
-            evt_info['evt_desc'] = evt[6]
+            evt_info['event_code'] = evt[6]
+            evt_info['event_level'] = evt[7]
+            evt_info['evt_desc'] = evt[8]
+            seq_no = evt[-1]
+
             evt_list.append(evt_info)
-            self.last_seq_no = evt[-1]
+        if len(q_list) > 0:
+            self.set_seq_no(seq_no)
         return evt_list
 
     def get_req(self):
@@ -173,53 +180,33 @@ class itsm_event():
             req_info[opt] = self.cfg.get('message',opt)
         return req_info
 
-    def get_1min_date(self,cdate):
-        cd_t=datetime.datetime.strptime(cdate,'%Y-%m-%d %H:%M:%S')
-        qcd = cd_t - datetime.timedelta(minutes=1)
-        return qcd.strftime('%Y-%m-%d %H:%M:%S')
-
     def get_cdate(self):
         cd = self.now - datetime.timedelta(days=1)
         cdate = cd.strftime('%Y-%m-%d %H:%M:%S')
         if os.path.isfile(self.c_file):
             with open(self.c_file) as f:
                 cdate = f.read()
-        qcdate = self.get_1min_date(cdate)
-        #date 변수 셋팅
         self.set_cdate()
-        return qcdate,cdate
+        cdate_dt = datetime.datetime.strptime(cdate,'%Y-%m-%d %H:%M:%S')
+        cdate_1min = cdate_dt - datetime.timedelta(minutes=1)
+        cdate_str = cdate_1min.strftime('%Y-%m-%d %H:%M:%S')
+        return cdate,cdate_str
 
     def set_cdate(self):
         with open(self.c_file,'w') as fw:
             fw.write(self.now.strftime('%Y-%m-%d %H:%M:%S'))
         print('check date  : ',self.now.strftime('%Y-%m-%d %H:%M:%S'))
-
-    def get_log_str(self):
-        log_file = os.path.join('logs',self.now.strftime('%Y%m%d.log'))
-        with open(log_file) as f:
-            log_str = f.read()
-        return log_str
-
     def main(self):
+
         yd_date = self.now - datetime.timedelta(days=1)
         yd = yd_date.strftime('%Y-%m-%d')
         td = self.now.strftime('%Y-%m-%d')
-        qcd,cd = self.get_cdate()
-        evt_list = self.get_evt_list(yd, td, qcd)
-
+        cd,qcd = self.get_cdate()
+        print(qcd,cd)
+        evt_list = self.get_evt_list(yd, td, qcd,cd)
         print('event count :',len(evt_list))
         """
-        KB ITSM
-        INFO  : 구분자
-        2  : {1 :수신직원번소 , 2:수신전화번호, 3:수신App코드그룹, 6:ITSM정의수신코드} => 2번고정
-        01012341234  : 수신대상자 (전화번호) event message 대상자.
-        20220329120000 : 이벤트 발생시간.
-        5011815 : 요청자 (KB 담당 직원번호)
-        P : 발송타입 , 고정값
-        HSRM : app code 값
-        HSRM : 프로그램명
-        NA : 요청구분키 / ID / 근거 => 없으면 NA
-        [Serailnum] message 80byte 이하 SMS , 초과  LMS
+      
         """
 
         """
@@ -231,32 +218,45 @@ class itsm_event():
 
         """
         req_info = self.get_req()
-        self.flogger.debug('yd : {}, td: {}, cd: {}, qcd: {}, count:{}'.format(yd, td, cd, qcd, str(len(evt_list))))
-        log_str = self.get_log_str()
+        self.flogger.debug('YD[{}], TD[{}], QCD[{}], CD[{}], count : {}'.format(yd,td,qcd,cd,str(len(evt_list))))
         for evt in evt_list:
             """
-            evt 
-                1. 이벤트 발생시간
-                2. SAN/STG
-                3. 장비 serial
-                4. 이벤트 내용\
+          
+             
             evt['event_date'] = evt[0]
             evt['tel_num'] = evt[1]
             evt['dev_serail'] = evt[2]
             evt['dev_alias'] = evt[3]
             evt['dev_vedor'] = evt[4]
             evt['evt_desc'] = evt[5]
+
+
+       event_date ,
+       telephone,
+       event.device_uid_zero(serial_number) dev_serial,
+       event.device_alias_zero(serial_number) dev_alias,
+       device_type ,
+       vendor_name ,
+       event_code,
+       
+       desc_summary
+
+       
             """
             evt_date = evt['event_date']
             evt_dev = evt['dev_type']
             evt_telnum = evt['tel_num']
-            evt_serail = evt['dev_alias']
-            evt_msg = evt['evt_desc']
+            evt_serial = evt['dev_alias']
+            evt_msg = evt['evt_desc'].strip()
             kb_emp = req_info['req_emp']
             app_code = req_info['req_src1']
             pgm_name = req_info['req_src2']
             dev_key  = req_info['req_dev']
-            desc ="[{}][{}]{}".format(evt_dev,evt_serail,evt_msg)
+            event_level  = evt['event_level'].strip()
+            event_code  = evt['event_code'].strip()
+            print("evt_msg :",evt_msg)
+            desc ="[{VENDOR_LEVEL}][{ALIAS}][{CODE}]{MSG}".format(VENDOR_LEVEL=event_level,ALIAS=evt_serial,CODE=event_code,MSG=evt_msg)
+            print("desc :",desc)
             msg="INFO 2 {RCV_NO} {EVT_TIME} {REQ_EMP} P {REQ_SRC1} {REQ_SRC2} {REQ_DEV} {MSG_TXT}".format(
                                                                                     RCV_NO=evt_telnum,
                                                                                     EVT_TIME=evt_date,
@@ -265,18 +265,29 @@ class itsm_event():
                                                                                     REQ_SRC2=pgm_name,
                                                                                     REQ_DEV=dev_key,
                                                                                     MSG_TXT=desc)
-            if msg in log_str:
-                self.flogger.error('dup mag : {}'.format(msg))
+            print(msg)
+            			
+            
+            #now = datetime.datetime.now()
+            log_file = os.path.join('logs',self.now.strftime('%Y%m%d.log'))  
+            with open(log_file) as f:
+                log_str = f.read()
+            print(type(log_str),len(log_str))
+            print(type(msg),len(msg))			
+            msg = msg.replace('-','')
+            log_str = log_str.replace('-','')
+            
+            if  msg in log_str:
+                self.flogger.info('dup msg  :'+msg)
             else:
                 self.flogger.info(msg)
                 self.send(msg)
-                self.set_last_seq_no()
-        # self.set_cdate()
+        #self.set_cdate()
         print('-'*50)
 
 if __name__=='__main__':
     itsm_event().main()
-    # city = u'서울'
+
     # print(isinstance(city,str))
     # city1=city.encode('utf-8')
     # print(city1)

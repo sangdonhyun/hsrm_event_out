@@ -24,8 +24,20 @@ class AESCipher(object):
         d = k.decrypt(data)
         return d
 
+    def test(self):
+        fc = AESCipher()
+        pw='qc19721108*'
+        e = fc.encrypt(pw)
+        t = fc.decrypt(e)
+        print(e)
+        # print(type(e))
+        print(t)
+        # print(type(t))
+        if isinstance(e,bytes):
+            print(type(e.decode('utf-8')))
 
 if __name__ == '__main__':
+    AESCipher().test()
     fc = AESCipher()
     # print(crypt_me)
     pw=input('enter passwd :')
@@ -38,6 +50,6 @@ if __name__ == '__main__':
     if isinstance(e,bytes):
         ps_str = e.decode('utf-8')
         print('패스위드 암호화 : {}'.format(ps_str))
-
+    #
     # pw="KTogOT8Yy/LWtMJ7YtmQug=="
-    # print(fc.decrypt(pw))
+    # print(str(fc.decrypt(ps_str)))

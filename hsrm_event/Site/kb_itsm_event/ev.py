@@ -12,11 +12,11 @@ where serial_number not in (
    where start_time::date <= now() and end_time::date > now()
  ) and user_id = '' and check_date::date > now()::date + interval '-2 minutes' order by seq_no desc;
         """
-        print query
+        print (query)
         rows=self.db.getRaw(query)
         
         for row in rows:
-            print row
+            print (row)
 
 
 if __name__=='__main__':

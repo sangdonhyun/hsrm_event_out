@@ -25,7 +25,7 @@ class log_manager():
         n=datetime.datetime.now()
         old_log_date = n - datetime.timedelta(days=int(clear_day))
         old_log_str = old_log_date.strftime('%Y%m%d')
-        log_list = glob.glob(os.path.join('logs','*.log'))
+        log_list = glob.glob(os.path.join('Site/hanhwa/config/logs', '*.log'))
         for log_name in log_list:
             log_date_str = os.path.splitext(os.path.basename(log_name))[0]
             print(log_date_str, old_log_str, log_date_str < old_log_str)
