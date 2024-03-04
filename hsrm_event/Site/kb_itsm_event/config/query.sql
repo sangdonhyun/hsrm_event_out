@@ -29,13 +29,6 @@ WHERE
     --or (q_event_level = 'Critical' and device_type = 'NAS')
    )
     and seq_no > '{LAST_SEQ_NO}'
---    and serial_number in (
---        select
---            stg_serial ss FROM  master.master_stg_info msi   WHERE    stg_biz_name::text like '%ONE_CLOUD%'
---        union all
---        select  lsspi.swi_serial FROM live.live_swi_std_port_info lsspi WHERE   lsspi.dev_type::text = 'STG'::TEXT   and (lsspi.dev_name::bpchar in (
---            SELECT stg_serial ss FROM master.master_stg_info msi WHERE stg_biz_name::text like '%ONE_CLOUD%'))
---            group BY lsspi.swi_serial
---   )
+
 order BY seq_no ASC limit 30
 

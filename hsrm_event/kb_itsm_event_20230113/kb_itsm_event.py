@@ -7,7 +7,9 @@ import configparser
 import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
+"""
 
+"""
 
 class itsm_event():
     def __init__(self):
@@ -148,14 +150,14 @@ class itsm_event():
             q = q.replace('{SEQ_NO}', self.last_seq_no)
 
         print(q)
-        #self.flogger.info(q)
         q_list = self.getRaw(q)
         """
         2022-03-04 09:20:55	01077778888	00000000000000011015	411015	STG	HITACHI	is a Error test code.[PORT:5E]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         2022-03-15 10:35:55	01077778888	00000000000000011536	11536	STG	HITACHI	is a Error test code.[PORT:5E]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         2022-03-15 10:35:55	01077778888	00000000000000011537	11537	STG	HITACHI	is a Error test code.[PORT:5E]
         """
-
+        if len(q_list) > 0:
+            self.flogger.info(q)
         for evt in q_list:
             evt_info = dict()
             date_str = datetime.datetime.strftime(datetime.datetime.strptime(evt[0],'%Y-%m-%d %H:%M:%S'),'%Y%m%d%H%M%S')
@@ -163,11 +165,22 @@ class itsm_event():
             evt_info['tel_num'] = evt[1]
             evt_info['dev_serail'] = evt[2]
             evt_info['dev_alias'] = evt[3]
-            evt_info['dev_type'] = evt[4]
-            evt_info['dev_vedor'] = evt[5]
-            evt_info['evt_desc'] = evt[6]
+            try:
+                evt_info['dev_type'] = evt[4].strip()
+            except Exception as e:
+                evt_info['dev_type'] = ''
+            try:
+                evt_info['dev_vedor'] = evt[5].strip()
+            except Exception as e:
+                evt_info['dev_vedor'] = ''
+            try:
+                evt_info['evt_desc'] = evt[9].strip()
+            except Exception as e:
+                evt_info['evt_desc'] = ''
             evt_list.append(evt_info)
             self.last_seq_no = evt[-1]
+            print(evt)
+            print(evt_info)
         return evt_list
 
     def get_req(self):
@@ -275,6 +288,7 @@ class itsm_event():
                 self.send(msg)
             self.set_last_seq_no()
         # self.set_cdate()
+        self.flogger.info('last seq no :{}'.format(self.last_seq_no))
         print('-'*50)
 
 if __name__=='__main__':

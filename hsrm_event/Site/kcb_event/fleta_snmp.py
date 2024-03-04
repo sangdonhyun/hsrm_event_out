@@ -1,4 +1,4 @@
-from pysnmp.hlapi import *
+#from pysnmp.hlapi import *
 import configparser
 import os
 import re

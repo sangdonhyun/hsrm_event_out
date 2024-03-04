@@ -20,6 +20,10 @@ from logging.handlers import TimedRotatingFileHandler
 import re
 import fleta_crypto
 import fleta_snmp
+import smtplib
+import ssl
+from email.mime.text import MIMEText
+
 
 class itsm_event():
     def __init__(self):
@@ -163,6 +167,96 @@ class itsm_event():
         snmp_dict['MSG'] = msg
         fleta_snmp.trap_send(snmp_dict).send()
 
+    def send_smtp_nomal(self,msg_content):
+        smtp_host = self.cfg.get('smtp', 'smtp_host', fallback='smtp.fletacom.com')
+        smtp_user = self.cfg.get('smtp', 'smtp_user', fallback='fleta@fletacom.com')
+        smtp_passwd = self.cfg.get('smtp', 'smtp_passwd', fallback='fleta123')
+        target_user = self.cfg.get('smtp', 'target_user', fallback='fleta@fletacom.com')
+        smtp_title = self.cfg.get('smtp', 'smtp_title', fallback='[HSRM] Event Message')
+        smtp_port = self.cfg.get('smtp', 'smtp_port', fallback='25')
+
+        now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        user_list = list()
+        if ';' in target_user:
+            for user in target_user.split(';'):
+                user_list.append(user)
+        else:
+            user_list.append(target_user)
+
+
+        msg = MIMEText(msg_content)
+        msg['Subject'] = smtp_title
+        msg['From'] = 'HSRM<{SMTP_USER}>'.format(SMTP_USER=smtp_user)
+
+        smtp = smtplib.SMTP(smtp_host, 25)
+        msg['To'] = ','.join(user_list)
+        smtp.sendmail(smtp_user, msg['To'].split(','), msg.as_string())
+        print(msg.as_string())
+        smtp.quit()
+
+
+
+    def send_smtp_ssl(self,msg_content):
+        smtp_host = self.cfg.get('smtp', 'smtp_host', fallback='smtp.fletacom.com')
+        smtp_user = self.cfg.get('smtp', 'smtp_user', fallback='fleta@fletacom.com')
+        smtp_passwd = self.cfg.get('smtp', 'smtp_passwd', fallback='fleta123')
+        target_users = self.cfg.get('smtp', 'target_user', fallback='fleta@fletacom.com')
+        smtp_title = self.cfg.get('smtp', 'smtp_title', fallback='[HSRM] Event Message')
+        smtp_port = self.cfg.get('smtp', 'smtp_port', fallback='465')
+
+        msg = MIMEText(msg_content)
+        msg['Subject'] = smtp_title
+        msg['To'] = smtp_user
+
+        context = ssl.create_default_context()
+        user_list = list()
+        if ';' in target_users:
+            for user in target_users.split(';'):
+                user_list.append(user)
+        else:
+            user_list.append(target_users)
+        for user in user_list:
+            with smtplib.SMTP_SSL(smtp_host, smtp_port, context=context) as server:
+                server.login(smtp_user, smtp_passwd)
+                server.sendmail(smtp_user, user, msg.as_string())
+
+
+    def send_smtp_tcl(self,msg_content):
+        smtp_host = self.cfg.get('smtp', 'smtp_host', fallback='smtp.fletacom.com')
+        smtp_user = self.cfg.get('smtp', 'smtp_user', fallback='fleta@fletacom.com')
+        smtp_passwd = self.cfg.get('smtp', 'smtp_passwd', fallback='fleta123')
+        target_users = self.cfg.get('smtp', 'target_user', fallback='fleta@fletacom.com')
+        smtp_title = self.cfg.get('smtp', 'smtp_title', fallback='[HSRM] Event Message')
+        smtp_port = self.cfg.get('smtp', 'smtp_port', fallback='587')
+        msg = MIMEText(msg_content)
+        msg['Subject'] = smtp_title
+        msg['To'] = smtp_user
+        print('smtp_port :',smtp_port,type(smtp_port))
+        smtp = smtplib.SMTP(smtp_host, int(smtp_port))
+        smtp.ehlo()  # say Hello
+        smtp.starttls()  # TLS 사용시 필요
+        smtp.login(smtp_user, smtp_passwd)
+        user_list = list()
+        if ';' in target_users:
+            for user in target_users.split(';'):
+                user_list.append(user)
+        else:
+            user_list.append(target_users)
+
+        for user in user_list:
+            smtp.sendmail(smtp_user, user, msg.as_string())
+            print(msg.as_string())
+        smtp.quit()
+
+
+    def send_smtp(self,msg_content):
+        smtp_method = self.cfg.get('smtp', 'smtp_method', fallback='')
+        if smtp_method == 'tcl':
+            self.send_smtp_tcl(msg_content)
+        elif smtp_method== 'ssl':
+            self.send_smtp_ssl(msg_content)
+        else:
+            self.send_smtp_nomal(msg_content)
 
     def send_file(self,msg):
         event_file = self.cfg.get('common','event_file')
@@ -231,7 +325,7 @@ class itsm_event():
         q_event_level ,
         desc_summary
         """
-        seq_no = '1'
+
         for evt in q_list:
             evt_info = dict()
             for i in range(len(evt)):
@@ -379,6 +473,8 @@ class itsm_event():
                     self.send_syslog(evt_info['arg_5'], msg)
                 elif send_method == 'snmp':
                     self.send_snmp( msg)
+                elif send_method == 'smtp':
+                    self.send_smtp( msg)
                 else:
                     self.send_file(msg)
 

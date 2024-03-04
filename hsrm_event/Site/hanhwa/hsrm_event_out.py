@@ -282,6 +282,7 @@ class itsm_event():
         :param cd:
         :return:
         """
+
         evt_list = list()
         q_file = os.path.join('config','query.sql')
         with open(q_file) as f:
@@ -289,6 +290,7 @@ class itsm_event():
         q = q.replace('{YD}',yd)
         q = q.replace('{TD}',td)
         q = q.replace('{CD}',cd)
+        q = q.replace('{SEQ_NO}', seq_no)
         q_list = self.getRaw(q)
         """
         2022-03-04 09:20:55	01077778888	00000000000000011015	411015	STG	HITACHI	is a Error test code.[PORT:5E]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          

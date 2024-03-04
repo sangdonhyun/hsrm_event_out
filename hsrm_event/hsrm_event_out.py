@@ -16,6 +16,9 @@ import logging
 from logging.handlers import TimedRotatingFileHandler
 import re
 import fleta_crypto
+import smtplib
+import ssl
+from email.mime.text import MIMEText
 
 class itsm_event():
     def __init__(self):
@@ -108,6 +111,37 @@ class itsm_event():
         except Exception as e:
             self.flogger.error(str(e))
             print(str(e))
+
+    def send_smtp(self, msg_content):
+        smtp_host = self.cfg.get('smtp', 'smtp_host', fallback='smtp.fletacom.com')
+        smtp_user = self.cfg.get('smtp', 'smtp_user', fallback='fleta@fletacom.com')
+        smtp_passwd = self.cfg.get('smtp', 'smtp_passwd', fallback='fleta123')
+        target_user = self.cfg.get('smtp', 'target_user', fallback='fleta@fletacom.com')
+        target_user = self.cfg.get('smtp', 'target_user', fallback='fleta@fletacom.com')
+        target_user = self.cfg.get('smtp', 'target_user', fallback='fleta@fletacom.com')
+        smtp_title = self.cfg.get('smtp', 'smtp_title', fallback='[HSRM] Event Message')
+
+
+        msg = MIMEText(msg_content)
+        msg['Subject'] = smtp_title
+        msg['To'] = smtp_user
+        print(smtp_host)
+        print(smtp_user)
+        print(smtp_passwd)
+        print(target_user)
+
+        smtp = smtplib.SMTP(smtp_host, 587)
+        smtp.ehlo()  # say Hello
+        smtp.starttls()  # TLS 사용시 필요
+        smtp.login(smtp_user, smtp_passwd)
+        try:
+            smtp.sendmail(smtp_user, target_user, msg.as_string())
+            self.flogger.info('smtp send {} {}'.format(target_user, msg_content))
+        except Exception as e:
+            self.flogger.errot('smtp send error {} {}'.format(target_user, msg_content))
+            self.flogger.error(str(e))
+        print(msg.as_string())
+        smtp.quit()
 
     def send_socket(self,msg):
         """
@@ -309,6 +343,7 @@ class itsm_event():
             else:
                 self.flogger.info(msg)
                 self.send_file(msg)
+                # self.send_smtp(msg)
         # self.set_cdate()
         print('-'*50)
 

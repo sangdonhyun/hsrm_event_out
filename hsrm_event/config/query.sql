@@ -1,24 +1,19 @@
-SELECT
-event_date,
-serial_number,
-event_code,
-event_level,
-q_event_level ,
-device_type ,
-al.device_alias,
-desc_summary,
-seq_no
-FROM EVENT.event_log el LEFT JOIN
- (
-    SELECT stg_serial ss, stg_alias device_alias FROM master.master_stg_info msi
-    UNION ALL
-    SELECT nas_name ss,nas_alias device_alias FROM master.master_nas_info mni
-    UNION ALL
-    SELECT swi_serial ss,swi_serial device_alias FROM master.master_swi_info
-) al
-ON el.serial_number = al.ss
-WHERE
+select
+       event_date ,
+       serial_number ,
+       device_type ,
+       view.device_alias_zero(serial_number) dev_alias,
+       vendor_name ,
+       desc_summary,
+       event_code,
+       q_event_level 
+from
+       "event".event_log el
+where
     1=1
-    and el.q_event_level = 'Critical'
-    and el.seq_no > '{SEQ_NO}'
-ORDER BY seq_no 
+    --and log_date >= '{YD}'::date
+    --and log_date <= '{TD}'::date
+    --and q_event_level = 'Critical'
+    --and check_date >='{CD}'
+    AND (device_type = 'STG' AND q_event_level  IN ('Critical', 'Warnning'))     OR (device_type = 'SWI' AND q_event_level  ='Critical')
+order by 1, 2
