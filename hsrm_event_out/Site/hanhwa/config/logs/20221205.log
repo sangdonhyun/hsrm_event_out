@@ -1,0 +1,11 @@
+2022-12-05 13:30:48,941 DEBUG ==> yd : 2022-12-04, td: 2022-12-05, cd: 2022-11-28 14:34:15, qcd: 2022-11-28 14:33:15, count:10
+2022-12-05 13:30:48,947 INFO ==> [2022-10-06 12:35:36][Warning][STG][None(127.0.0.1)][Battery reconditioning required]
+2022-12-05 13:30:48,971 INFO ==> [2022-10-12 16:42:01][Warning][STG][None(00000000000000011543)][Error test Message.[PORT:1F]]
+2022-12-05 13:30:48,971 INFO ==> [2022-10-13 16:42:01][Warning][STG][None(00000000000000054531)][Error test Message.[PORT:1C]]
+2022-12-05 13:30:48,972 INFO ==> [2022-10-13 16:42:01][Warning][STG][None(00000000000000054531)][Error test Message.[PORT:2A]]
+2022-12-05 13:30:48,972 INFO ==> [2022-10-13 16:42:01][Warning][STG][None(00000000000000040329)][Error test Message.[PORT:7D]]
+2022-12-05 13:30:48,973 INFO ==> [2022-10-13 16:43:01][Warning][STG][None(00000000000000040329)][Error test Message.[PORT:7D]]
+2022-12-05 13:30:48,973 INFO ==> [2022-11-28 09:29:15][Info][STG][None(127.0.0.1)][PureStorage Test Trap]
+2022-12-05 13:30:48,973 INFO ==> [2022-11-28 09:29:49][Warning][STG][None(127.0.0.1)][Unable to connect to remote array [46]]
+2022-12-05 13:30:48,973 INFO ==> [2022-11-29 09:00:00][Critical][SFP RX][N/A (BRD0000283)][Index:1,Slot:0,Port:1] SFP Rx Power 400uW [Port Speed:16G, Threshold:300uW], Linked Devices : N/A
+2022-12-05 13:30:48,974 INFO ==> [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A

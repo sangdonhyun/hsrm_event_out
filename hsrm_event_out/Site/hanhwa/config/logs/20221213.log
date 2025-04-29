@@ -1,0 +1,22 @@
+2022-12-13 08:45:52,022 DEBUG ==> yd : 2022-12-12, td: 2022-12-13, cd: 2022-12-05 13:30:47, qcd: 2022-12-05 13:29:47, count:10
+2022-12-13 08:45:52,036 INFO ==> [2022-10-06 12:35:36][Warning][STG][None(127.0.0.1)][Battery reconditioning required]
+2022-12-13 08:45:52,044 INFO ==> [2022-11-28 09:29:15][Info][STG][None(127.0.0.1)][PureStorage Test Trap]
+2022-12-13 08:45:52,044 INFO ==> [2022-11-28 09:29:49][Warning][STG][None(127.0.0.1)][Unable to connect to remote array [46]]
+2022-12-13 08:45:52,045 INFO ==> [2022-11-29 09:00:00][Critical][SFP RX][N/A (BRD0000283)][Index:1,Slot:0,Port:1] SFP Rx Power 400uW [Port Speed:16G, Threshold:300uW], Linked Devices : N/A
+2022-12-13 08:45:52,045 INFO ==> [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
+2022-12-13 08:45:52,046 INFO ==> [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
+2022-12-13 08:45:52,046 INFO ==> [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
+2022-12-13 08:45:52,047 INFO ==> [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
+2022-12-13 08:45:52,047 INFO ==> [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
+2022-12-13 08:45:52,048 INFO ==> [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
+2022-12-13 08:47:11,484 DEBUG ==> yd : 2022-12-12, td: 2022-12-13, cd: 2022-12-13 08:45:50, qcd: 2022-12-13 08:44:50, count:10
+2022-12-13 08:47:11,490 ERROR ==> dup mag : [2022-10-06 12:35:36][Warning][STG][None(127.0.0.1)][Battery reconditioning required]
+2022-12-13 08:47:11,490 ERROR ==> dup mag : [2022-11-28 09:29:15][Info][STG][None(127.0.0.1)][PureStorage Test Trap]
+2022-12-13 08:47:11,490 ERROR ==> dup mag : [2022-11-28 09:29:49][Warning][STG][None(127.0.0.1)][Unable to connect to remote array [46]]
+2022-12-13 08:47:11,490 ERROR ==> dup mag : [2022-11-29 09:00:00][Critical][SFP RX][N/A (BRD0000283)][Index:1,Slot:0,Port:1] SFP Rx Power 400uW [Port Speed:16G, Threshold:300uW], Linked Devices : N/A
+2022-12-13 08:47:11,490 ERROR ==> dup mag : [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
+2022-12-13 08:47:11,491 ERROR ==> dup mag : [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
+2022-12-13 08:47:11,491 ERROR ==> dup mag : [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
+2022-12-13 08:47:11,491 ERROR ==> dup mag : [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
+2022-12-13 08:47:11,491 ERROR ==> dup mag : [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
+2022-12-13 08:47:11,491 ERROR ==> dup mag : [2022-11-29 09:00:00][Critical][THROUGHPUT][N/A (BRD0000283)][Index:1,Slot:0,Port:1] Throughput Critical 400 [Port Speed:16G, Threshold:300], Linked Devices : N/A
